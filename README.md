@@ -4,6 +4,8 @@ La aplicación esta dividida en 4 .html: index, agregar-actividad, listado y est
 
 # Actividades Recreativas Web App
 ## Características
+- **Portada:**
+  Incluye mensaje de bienvenida y 3 botones: Agrear actividad, Ver listado de actividades y Estadística. Además de los últimos 5 eventos subidos. 
 
 - **Formulario de Actividades:**  
   Permite al usuario informar una nueva actividad. El formulario está dividido en secciones (Información del lugar, Datos del organizador, Información de la actividad).  
