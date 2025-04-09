@@ -1,7 +1,6 @@
 # desarrollo_web_Manuel_Ortiz
 
-La aplicación esta dividida en 4 .html, y 2 .js, en particular, scripts.js está asociado a index.html
-y formulario.js está asociado a agregar-actividad.html
+La aplicación esta dividida en 4 .html: index, agregar-actividad, listado y estadistica y 2 .js, en particular, scripts está asociado a index y formulario está asociado a agregar-actividad
 
 # Actividades Recreativas Web App
 ## Características
