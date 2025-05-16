@@ -1,4 +1,4 @@
-# desarrollo_web_Tu_Nombre
+# desarrollo_web_Manuel_Ortiz
 
 Aplicación desarrollada en **Python con Flask** para gestionar actividades recreativas. El proyecto sigue una estructura MVC, e incluye rutas Flask, plantillas HTML5, hojas de estilo CSS3, validaciones en JavaScript y persistencia de datos usando SQLAlchemy con una base de datos MySQL.
 
