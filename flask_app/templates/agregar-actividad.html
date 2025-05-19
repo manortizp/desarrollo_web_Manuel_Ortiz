@@ -10,23 +10,26 @@
 </head>
 <body>
     <h1>Informar actividad</h1>
-    <form id="form-actividad">
+    <form id="form-actividad" method="POST" enctype="multipart/form-data" action="{{ url_for('agregar') }}">
 
         <!-- Información del lugar -->
         <fieldset class="seccion">
             <legend>¿Dónde?</legend>
             <label>Región:
-                <select id="region" required>
+                <select id="region" name="region_id" required>
                     <option value="" disabled selected>Seleccionar región</option>
+                    {% for region in regiones %}
+                        <option value="{{ region.id }}">{{ region.nombre }}</option>
+                    {% endfor %}
                 </select>
             </label><br><br>
             <label>Comuna:
-                <select id="comuna" required>
+                <select id="comuna" name="comuna_id" required>
                     <option value="" disabled selected>Seleccionar comuna</option>
                 </select>
             </label><br><br>
             <label>Sector:
-                <input type="text" id="sector" maxlength="100">
+                <input type="text" id="sector" name="sector" maxlength="100">
             </label>
         </fieldset>
 
@@ -34,16 +37,16 @@
         <fieldset class="seccion">
             <legend>¿Quién organiza?</legend>
             <label>Nombre:
-                <input type="text" id="nombre" maxlength="200" required>
+                <input type="text" id="nombre" name="nombre" maxlength="200" required>
             </label><br><br>
             <label>Email:
-                <input type="email" id="email" maxlength="100" required>
+                <input type="email" id="email" name="email" maxlength="100" required>
             </label><br><br>
             <label>Número de celular:
-                <input type="tel" id="telefono" pattern="\+\d{3}\.\d{8}" placeholder="+569.12345678">
+                <input type="tel" id="telefono" name="celular" pattern="\+\d{3}\.\d{8}" placeholder="+569.12345678">
             </label><br><br>
             <label>Contactar por:
-                <select id="contacto-select" multiple>
+                <select id="contacto-select" name="contacto[]" multiple>
                     <option value="whatsapp">WhatsApp</option>
                     <option value="telegram">Telegram</option>
                     <option value="x">X</option>
@@ -63,16 +66,16 @@
         <fieldset class="seccion">
             <legend>¿Cuándo y de qué trata?</legend>
             <label>Inicio:
-                <input type="datetime-local" id="inicio" required>
+                <input type="datetime-local" id="inicio" name="dia_hora_inicio" required>
             </label><br><br>
             <label>Término:
-                <input type="datetime-local" id="termino">
+                <input type="datetime-local" id="termino" name="dia_hora_termino">
             </label><br><br>
             <label>Descripción:<br>
-                <textarea cols="50" rows="10"></textarea>
+                <textarea name="descripcion" cols="50" rows="10"></textarea>
             </label><br><br>
             <label>Tema:
-                <select id="tema" required>
+                <select id="tema" name="temas[]" required>
                     <option value="" disabled selected>Seleccionar tema</option>
                     <option value="música">Música</option>
                     <option value="deporte">Deporte</option>
@@ -88,13 +91,13 @@
             </label><br><br>
             <div id="tema-otro" class="hidden">
                 <label>Descripción del tema:
-                    <input type="text" id="input-tema-otro" minlength="3" maxlength="15">
+                    <input type="text" id="input-tema-otro" name="glosa_otro[]" minlength="3" maxlength="15">
                 </label>
             </div><br>
 
             <label for="foto">Foto:</label>
                 <div id="fotos">
-                    <input type="file" id="foto" name="foto" accept="image/*" required>
+                    <input type="file" id="foto" name="fotos" accept="image/*" required>
                 </div>
                 <button type="button" id="btn-agregar-foto">Agregar otra foto</button>
         </fieldset>
@@ -110,9 +113,9 @@
 
     <div id="mensaje-final" class="hidden">
         <p>Hemos recibido su información, muchas gracias y suerte en su actividad</p>
-        <button onclick="window.location.href='index.html'">Volver a la portada</button>
+        <a href="{{ url_for('index') }}"><button>Volver a la portada</button></a>
     </div>
 
-    <script src="formulario.js"></script>
+    <script src="{{ url_for('static', filename ='js/formulario.js') }}"></script>
 </body>
 </html>

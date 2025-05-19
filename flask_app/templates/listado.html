@@ -3,71 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Listado de Actividades</title>
-  <style>
-    /* Vista del listado y detalle */
-    .detalle {
-      display: none;
-    }
-    table {
-      border-collapse: collapse;
-      margin: 0 auto;
-    }
-    table, th, td {
-      border: 1px solid #ccc;
-      padding: 8px;
-    }
-    
-    /* Miniaturas en la galería */
-    .foto-miniatura {
-      width: 320px;
-      height: 240px;
-      cursor: pointer;
-      margin: 10px;
-    }
-    
-    /* Modal para foto ampliada */
-    #foto-ampliada-container {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      z-index: 9999;
-      align-items: center;
-      justify-content: center;
-    }
-    #foto-ampliada-wrapper {
-      position: relative;
-    }
-    #foto-ampliada {
-      width: 800px;
-      height: 600px;
-      display: block;
-    }
-    #cerrar-btn {
-      position: absolute;
-      top: 0;
-      right: 0;
-      background: #fff;
-      border: none;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      padding: 5px 10px;
-    }
-    
-    /* Centrado de contenido */
-    #listado, #detalle {
-      width: 80%;
-      margin: 0 auto;
-      text-align: center;
-    }
-    button {
-      margin: 10px;
-    }
-  </style>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
 </head>
 <body>
   <div>
@@ -91,58 +27,38 @@
         </tr>
       </thead>
       <tbody>
-        <!-- Fila 1: 3 fotos -->
-        <tr onclick="verDetalles('Escuela de Boxeo', 'Activa', 'Santiago', 'Centro', 'Escuela de Boxeo', 'Juan Pérez', 'foto1.jpg,foto2.jpg,foto3.jpg')">
-          <td>2025-03-28 12:00</td>
-          <td>2025-03-28 14:00</td>
-          <td>Santiago</td>
-          <td>Centro</td>
-          <td>Escuela de Boxeo</td>
-          <td>Juan Pérez</td>
-          <td>3</td>
-        </tr>
-        <!-- Fila 2: 2 fotos -->
-        <tr onclick="verDetalles('Deshidratación de Frutas', 'Funciona a medias', 'Ñuñoa', 'Av. Irarrázaval 1234', 'Deshidratación', 'María González', 'foto4.jpg,foto5.jpg')">
-          <td>2025-03-29 19:00</td>
-          <td>2025-03-29 20:00</td>
-          <td>Ñuñoa</td>
-          <td>Av. Irarrázaval 1234</td>
-          <td>Deshidratación</td>
-          <td>María González</td>
-          <td>2</td>
-        </tr>
-        <!-- Fila 3: 1 foto -->
-        <tr onclick="verDetalles('Adopción de Perritos', 'Completa', 'Pudahuel', 'Plaza Toledo', 'Adopción', 'Carlos Ramírez', 'foto6.jpg')">
-          <td>2025-04-01 10:00</td>
-          <td>2025-04-01 15:00</td>
-          <td>Pudahuel</td>
-          <td>Plaza Toledo</td>
-          <td>Adopción</td>
-          <td>Carlos Ramírez</td>
-          <td>1</td>
-        </tr>
-        <!-- Fila 4: 4 fotos -->
-        <tr onclick="verDetalles('Marcha Liberación Mapache', 'Activa', 'Santiago Centro', 'Parque Almagro', 'Marcha', 'Ana López', 'foto7.jpg,foto8.jpg,foto9.jpg,foto10.jpg')">
-          <td>2025-04-04 10:00</td>
-          <td>2025-04-04 13:00</td>
-          <td>Santiago Centro</td>
-          <td>Parque Almagro</td>
-          <td>Marcha</td>
-          <td>Ana López</td>
-          <td>4</td>
-        </tr>
-        <!-- Fila 5: 2 fotos -->
-        <tr onclick="verDetalles('Entrega de Bonos', 'Programada', 'Estación Central', 'Municipalidad', 'Entrega de Bonos', 'Pedro Morales', 'foto11.jpg,foto12.jpg')">
-          <td>2025-04-05 10:00</td>
-          <td>2025-04-06 23:59</td>
-          <td>Estación Central</td>
-          <td>Municipalidad</td>
-          <td>Entrega de Bonos</td>
-          <td>Pedro Morales</td>
-          <td>2</td>
-        </tr>
+        {% for a in actividades %}
+          <tr onclick="verDetalles(
+            '{{ a.tema }}', 
+            'Sin estado', 
+            '{{ a.comuna }}', 
+            '{{ a.sector }}', 
+            '{{ a.tema }}', 
+            '{{ a.organizador }}', 
+            '{{ a.fotos | join(",") }}')">
+        <td>{{ a.inicio }}</td>
+        <td>{{ a.termino }}</td>
+        <td>{{ a.comuna }}</td>
+        <td>{{ a.sector }}</td>
+        <td>{{ a.tema }}</td>
+        <td>{{ a.organizador }}</td>
+        <td>{{ a.fotos|length }}</td>
+      </tr>
+        {% endfor %}
       </tbody>
     </table>
+  
+    <div class="paginacion">
+      {% if pagination.has_prev %}
+        <a href="{{ url_for('listado', page=pagination.prev_num) }}">« Anterior</a>
+      {% endif %}
+
+      Página {{ pagination.page }} de {{ pagination.pages }}
+
+      {% if pagination.has_next %}
+        <a href="{{ url_for('listado', page=pagination.next_num) }}">Siguiente »</a>
+      {% endif %}
+    </div>
   </div>
 
   <!-- Sección de detalle de la actividad -->
@@ -158,7 +74,7 @@
     <div id="galeria"></div>
 
     <button onclick="volverListado()">Volver al listado</button>
-    <a href="index.html"><button>Volver a la portada</button></a>
+    <a href="{{ url_for('index') }}"><button>Volver a la portada</button></a>
   </div>
 
   <!-- Modal para imagen ampliada -->

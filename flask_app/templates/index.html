@@ -3,27 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Actividades Recreativas</title>
-    <script src="scripts.js"></script>  
-    <style>
-        table {
-      border-collapse: collapse;
-      margin: 0 auto;
-    }
-    table, th, td {
-      border: 1px solid #ccc;
-      padding: 8px;
-    }
-    
-    </style>  
+    <script src= "{{ url_for('static', filename ='js/scripts.js') }}"></script>  
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">  
 </head>
 <body>
 
     <h1>Actividades Recreativas</h1>
     <p>Bienvenido a la web que te mostrará las actividades más interesantes del momento...</p>
     
-    <button type="button" id="btn-agregar">Agregar actividad</button>
-    <button type="button" id="btn-listado">Ver listado de actividades</button>
-    <button type="button" id="btn-estadistica">Estadísticas</button>
+    <button type="button" id="btn-agregar" data-url="{{ url_for('agregar') }}">Agregar actividad</button>
+    <button type="button" id="btn-listado" data-url="{{ url_for('listado') }}">Ver listado de actividades</button>
+    <button type="button" id="btn-estadistica" data-url="{{ url_for('estadistica') }}">Estadísticas</button>
     <p id="mensaje"></p>
 
     <hr>
@@ -49,7 +39,7 @@
                     <td>Santiago</td>
                     <td>Beauchef 850, terraza</td>
                     <td>Escuela de Boxeo</td>
-                    <td><img src="images/box.jpg" alt="Foto 1" class="foto"></td>
+                    <td><img src="{{ url_for('static', filename='images/box.jpg') }}" alt="Foto 1" class="foto"></td>
                 </tr>
                 <!-- Fila 2 -->
                 <tr>
@@ -58,7 +48,7 @@
                     <td>Ñuñoa</td>
                     <td>Centro Hipster</td>
                     <td>¿Cómo deshidratar fruta?</td>
-                    <td><img src="images/seca.jpg" alt="Foto 2" class="foto"></td>
+                    <td><img src="{{ url_for('static', filename='images/seca.jpg') }}" alt="Foto 2" class="foto"></td>
                 </tr>
                 <!-- Fila 3 -->
                 <tr>
@@ -67,7 +57,7 @@
                     <td>Pudahuel</td>
                     <td>Plaza Toledo</td>
                     <td>Adopción de Perritos</td>
-                    <td><img src="images/perrito.jpg" alt="Foto 3" class="foto"></td>
+                    <td><img src="{{ url_for('static', filename='images/perrito.jpg') }}" alt="Foto 3" class="foto"></td>
                 </tr>
                 <!-- Fila 4 -->
                 <tr>
@@ -76,7 +66,7 @@
                     <td>Santiago Centro</td>
                     <td>Parque Almagro</td>
                     <td>Marcha Liberación Mapache</td>
-                    <td><img src="images/mapache.jpg" alt="Foto 4" class="foto"></td>
+                    <td><img src="{{ url_for('static', filename='images/mapache.jpg') }}" alt="Foto 4" class="foto"></td>
                 </tr>
                 <!-- Fila 5 -->
                 <tr>
@@ -85,7 +75,7 @@
                     <td>Estación Central</td>
                     <td>Municipalidad</td>
                     <td>Entrega de Bono</td>
-                    <td><img src="images/bono.jpg" alt="Foto 5" class="foto"></td>
+                    <td><img src="{{ url_for('static', filename='images/bono.jpg') }}" alt="Foto 5" class="foto"></td>
                 </tr>
             </tbody>
         </table>

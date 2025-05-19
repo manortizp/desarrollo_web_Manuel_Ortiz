@@ -2,12 +2,12 @@
 // Botones
 document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("btn-agregar").addEventListener("click", function() {
-        window.location.href = "agregar-actividad.html"; // 
+        window.location.href = this.dataset.url; 
     });
     document.getElementById("btn-listado").addEventListener("click", function() {
-        window.location.href = "listado.html"; 
+        window.location.href = this.dataset.url; 
     });
     document.getElementById("btn-estadistica").addEventListener("click", function() {
-        window.location.href = "estadistica.html"; // 
+        window.location.href = this.dataset.url;
     });
 });
