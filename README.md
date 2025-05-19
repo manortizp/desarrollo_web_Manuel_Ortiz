@@ -43,5 +43,24 @@ Aplicación desarrollada en **Python con Flask** para gestionar actividades recr
 - **JavaScript:**  
   Para validaciones del formulario y mejoras interactivas.
 
-## Estructura del Proyecto
+## Instalación y ejecución
 
+1. Crear y activar el entorno virtual:
+
+```bash
+python -m venv venv
+# Windows:
+venv\Scripts\activate
+# Linux / MacOS:
+source venv/bin/activate
+```
+
+2. Instalar dependencias: 
+```bash
+pip install -r requirements.txt
+```
+
+3. Ejecutar flask:
+```bash
+flask run
+```
