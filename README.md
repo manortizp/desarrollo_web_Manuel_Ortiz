@@ -49,7 +49,7 @@ Aplicación desarrollada en **Python con Flask** para gestionar actividades recr
 - **JavaScript:**  
   Para validaciones del formulario y mejoras interactivas.
 
-- ** Highcharts:**
+- **Highcharts:**
   Para mostrar gráficos sobre las características de las actividades.
 
 ## Instalación y ejecución
@@ -73,16 +73,3 @@ pip install -r requirements.txt
 ```bash
 flask run
 ```
-
-## Estructura del Proyecto:
-.
-├── app.py                  # Lógica principal de la aplicación Flask
-├── models.py               # Definición de modelos con SQLAlchemy
-├── templates/              # Archivos HTML renderizados
-│   ├── index.html
-│   ├── agregar-actividad.html
-│   ├── listado.html
-│   └── estadistica.html
-├── static/
-│   └── uploads/            # Archivos subidos por los usuarios
-└── README.md
