@@ -28,13 +28,10 @@ Aplicación desarrollada en **Python con Flask** para gestionar actividades recr
   En esta última versión se agregan comentarios de personas sobre la actividad, estos se almacenan con nombre, texto y fecha.
 
 - **Estadísticas:**
- Página que muestra estadísticas sobre las actividades registradas.
-
-Actualmente implementado el backend (/api/estadistica) que retorna:
-
-- Actividades por día (línea de tiempo)
-- Actividades por tipo (gráfico de torta)
-- Actividades por franja horaria y mes (gráfico de barras)
+ Página que muestra estadísticas sobre las actividades registradas. Actualmente implementado el backend (/api/estadistica) que retorna:
+  - Actividades por día (línea de tiempo)
+  - Actividades por tipo (gráfico de torta)
+  - Actividades por franja horaria y mes (gráfico de barras)
 
 
 
