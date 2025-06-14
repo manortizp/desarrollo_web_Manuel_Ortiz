@@ -10,11 +10,11 @@ Aplicación desarrollada en **Python con Flask** para gestionar actividades recr
   Muestra un mensaje de bienvenida, un menú con enlaces a:
   - Agregar actividad (`/agregar`)
   - Ver listado de actividades (`/actividades`)
-  - Estadísticas (pendiente)
+  - Estadísticas (`/estadistica`)
   
   También presenta los últimos 5 eventos registrados en la base de datos con el formato definido en la Tarea 1.
 
-- **Formulario de Actividades:**
+- **Formulario para Agregar Actividades (/agregar):**
   Permite informar una nueva actividad mediante un formulario dividido en secciones (ubicación, organizador, contenido). Incluye:
   - Validaciones en **JavaScript** (cliente) y **Python** (servidor).
   - Envío de datos a una ruta de Flask para validación e inserción en las tablas:
@@ -22,12 +22,21 @@ Aplicación desarrollada en **Python con Flask** para gestionar actividades recr
   - Manejo de múltiples temas y medios de contacto.
   - Subida y almacenamiento de archivos.
 
-- **Listado de Actividades:**
+- **Listado de Actividades (/listado):**
   Página que muestra las actividades registradas en la base de datos, en una tabla paginada de 5 elementos por vista.
   Al hacer clic sobre una fila, se muestra el detalle completo de la actividad con los datos almacenados y sus imágenes asociadas.
+  En esta última versión se agregan comentarios de personas sobre la actividad, estos se almacenan con nombre, texto y fecha.
 
 - **Estadísticas:**
-  Esta sección se implementará en una tarea futura.
+ Página que muestra estadísticas sobre las actividades registradas.
+
+Actualmente implementado el backend (/api/estadistica) que retorna:
+
+- Actividades por día (línea de tiempo)
+- Actividades por tipo (gráfico de torta)
+- Actividades por franja horaria y mes (gráfico de barras)
+
+
 
 ## Tecnologías Utilizadas
 
@@ -43,9 +52,12 @@ Aplicación desarrollada en **Python con Flask** para gestionar actividades recr
 - **JavaScript:**  
   Para validaciones del formulario y mejoras interactivas.
 
+- ** Highcharts:**
+  Para mostrar gráficos sobre las características de las actividades.
+
 ## Instalación y ejecución
 
-1. Crear y activar el entorno virtual:
+1. Crear y activar el entorno virtual dentro de flask_app:
 
 ```bash
 python -m venv venv
@@ -64,3 +76,16 @@ pip install -r requirements.txt
 ```bash
 flask run
 ```
+
+## Estructura del Proyecto:
+.
+├── app.py                  # Lógica principal de la aplicación Flask
+├── models.py               # Definición de modelos con SQLAlchemy
+├── templates/              # Archivos HTML renderizados
+│   ├── index.html
+│   ├── agregar-actividad.html
+│   ├── listado.html
+│   └── estadistica.html
+├── static/
+│   └── uploads/            # Archivos subidos por los usuarios
+└── README.md
