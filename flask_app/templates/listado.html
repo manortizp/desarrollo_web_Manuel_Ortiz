@@ -29,11 +29,12 @@
       <tbody>
         {% for a in actividades %}
           <tr onclick="verDetalles(
+            {{ a.id }},
             '{{ a.tema }}', 
             'Sin estado', 
             '{{ a.comuna }}', 
             '{{ a.sector }}', 
-            '{{ a.tema }}', 
+            '{{ a.nombre }}',
             '{{ a.organizador }}', 
             '{{ a.fotos | join(",") }}')">
         <td>{{ a.inicio }}</td>
@@ -73,10 +74,36 @@
 
     <div id="galeria"></div>
 
-    <button onclick="volverListado()">Volver al listado</button>
+    <!-- Sección comentarios -->
+  <div id="seccion-comentarios">
+    <h3>Comentarios</h3>
+    
+    <!-- Formulario para comentario -->
+     <form id="form-comentario">
+      <label for="nombre">Nombre:</label><br />
+      <input type="text" id="nombre" name="nombre" required minlength="3" maxlength="80" /><br />
+
+      <label for="comentario" >Comentario</label><br />
+      <textarea id="comentario" name="comentario" rows="4" cols="50" required minlength="5"></textarea><br />
+
+      <!-- <input type="hidden" id="comentario-tema" name="tema" /> -->
+      <input type="hidden" id="actividad-id" name="actividad_id" />
+      <button type="submit">Agregar comentario</button>
+      <div id="comentario-error" style="color: red;"></div>
+     </form>
+
+     <h4>Lista de comentarios</h4>
+      <ul id="lista-comentarios">
+        <!-- Aquí se agregarán los comentarios dinámicamente -->
+  </div> 
+
+
+
+    <button onclick=volverListado()>Volver al listado</button>
     <a href="{{ url_for('index') }}"><button>Volver a la portada</button></a>
   </div>
 
+  
   <!-- Modal para imagen ampliada -->
   <div id="foto-ampliada-container">
     <div id="foto-ampliada-wrapper">
@@ -96,7 +123,7 @@
      * @param {string} organizador - Nombre del organizador.
      * @param {string} fotosStr - Cadena con rutas de imagen separadas por comas.
      */
-    function verDetalles(tema, estado, comuna, sector, actividad, organizador, fotosStr) {
+    function verDetalles(id, tema, estado, comuna, sector, actividad, organizador, fotosStr) {
       document.getElementById("listado").style.display = "none";
       document.getElementById("detalle").style.display = "block";
 
@@ -107,14 +134,14 @@
       document.getElementById("d-organizador").textContent = organizador;
       
       // Se determina el número de fotos a partir de la cadena
-      var fotosArray = fotosStr.split(',').map(f => f.trim());
+      const fotosArray = fotosStr.split(',').map(f => f.trim());
       document.getElementById("d-fotos").textContent = fotosArray.length;
       
       // Generar la galería de imágenes dinámicamente
       var galeriaDiv = document.getElementById("galeria");
       galeriaDiv.innerHTML = ""; // Limpia contenido anterior
       fotosArray.forEach(function(src) {
-        var img = document.createElement("img");
+        const img = document.createElement("img");
         img.src = src;
         img.alt = "Foto de la actividad";
         img.className = "foto-miniatura";
@@ -123,8 +150,25 @@
         };
         galeriaDiv.appendChild(img);
       });
-    }
 
+      // Se guarda el id de la actividad para el comentario
+      document.getElementById("actividad-id").value = id;
+
+      // Carga comentarios de esta actividad
+      fetch(`/api/comentarios/${id}`)
+        .then(resp => resp.json())
+        .then(data => {
+          const lista = document.getElementById("lista-comentarios");
+          lista.innerHTML = ""; // Limpia la lista antes de agregar nuevos comentarios
+          for (const c of data) {
+            const li = document.createElement("li");
+            li.textContent = `${c.fecha} - ${c.nombre}: ${c.texto}`;
+            lista.appendChild(li);
+          }
+        });
+        
+}
+        
     // Vuelve a mostrar el listado y oculta el detalle.
     function volverListado() {
       document.getElementById("detalle").style.display = "none";
@@ -141,7 +185,47 @@
     function cerrarFoto() {
       document.getElementById("foto-ampliada-container").style.display = "none";
     }
-  </script>
+
+    document.getElementById("form-comentario").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const id = document.getElementById("actividad-id").value;
+      const nombre = document.getElementById("nombre").value.trim();
+      const texto = document.getElementById("comentario").value.trim();
+      const errorDiv = document.getElementById("comentario-error");
+
+      if (nombre.length < 3 || nombre.length > 80) {
+        errorDiv.textContent = "El nombre debe tener entre 3 y 80 caracteres.";
+        return;
+      }
+      if (texto.length < 5) {
+        errorDiv.textContent = "El comentario debe tener al menos 5 caracteres.";
+        return;
+      }
+
+      fetch("/api/comentario", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ actividad_id: id, nombre: nombre, texto: texto })
+      })
+        .then(resp => resp.json())
+        .then(data => {
+          if (data.success) {
+            errorDiv.textContent = "";
+            document.getElementById("comentario").value = "";
+            document.getElementById("nombre").value = "";
+          
+            const li = document.createElement("li");
+            li.textContent = `${data.comentario.fecha} - ${nombre}: ${texto}`;
+            document.getElementById("lista-comentarios").appendChild(li);
+          } else {
+            errorDiv.textContent = data.error || "Ocurrió un error.";
+          }
+        });
+});
+</script>
 </body>
 </html>
 

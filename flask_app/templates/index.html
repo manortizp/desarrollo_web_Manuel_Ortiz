@@ -31,52 +31,27 @@
                     <th>Foto</th>
                 </tr>
             </thead>
-            <tbody>
-                <!-- Fila 1 -->
+            <tbody> 
+                {% for act in actividades %}
                 <tr>
-                    <td>2025-03-28 12:00</td>
-                    <td>2025-03-28 14:00</td>
-                    <td>Santiago</td>
-                    <td>Beauchef 850, terraza</td>
-                    <td>Escuela de Boxeo</td>
-                    <td><img src="{{ url_for('static', filename='images/box.jpg') }}" alt="Foto 1" class="foto"></td>
+                    <td>{{ act.inicio }}</td>
+                    <td>{{ act.termino }}</td>
+                    <td>{{ act.comuna }}</td>
+                    <td>{{ act.sector }}</td>
+                    <td>{{ act.tema }}</td>
+                    <td>
+                        {% if act.fotos %}
+                            <img src="{{ act.fotos[0] }}" alt="Foto de la actividad" class="foto-actividad">
+                        {% else %}
+                            No hay fotos
+                        {% endif %}
+                    </td>
                 </tr>
-                <!-- Fila 2 -->
+                {% else %}
                 <tr>
-                    <td>2025-03-29 19:00</td>
-                    <td>2025-03-29 20:00</td>
-                    <td>Ñuñoa</td>
-                    <td>Centro Hipster</td>
-                    <td>¿Cómo deshidratar fruta?</td>
-                    <td><img src="{{ url_for('static', filename='images/seca.jpg') }}" alt="Foto 2" class="foto"></td>
-                </tr>
-                <!-- Fila 3 -->
-                <tr>
-                    <td>2025-04-01 10:00</td>
-                    <td>2025-04-01 15:00</td>
-                    <td>Pudahuel</td>
-                    <td>Plaza Toledo</td>
-                    <td>Adopción de Perritos</td>
-                    <td><img src="{{ url_for('static', filename='images/perrito.jpg') }}" alt="Foto 3" class="foto"></td>
-                </tr>
-                <!-- Fila 4 -->
-                <tr>
-                    <td>2025-04-04 10:00</td>
-                    <td>2025-04-04 13:00</td>
-                    <td>Santiago Centro</td>
-                    <td>Parque Almagro</td>
-                    <td>Marcha Liberación Mapache</td>
-                    <td><img src="{{ url_for('static', filename='images/mapache.jpg') }}" alt="Foto 4" class="foto"></td>
-                </tr>
-                <!-- Fila 5 -->
-                <tr>
-                    <td>2025-04-05 10:00</td>
-                    <td>2025-04-06 23:59</td>
-                    <td>Estación Central</td>
-                    <td>Municipalidad</td>
-                    <td>Entrega de Bono</td>
-                    <td><img src="{{ url_for('static', filename='images/bono.jpg') }}" alt="Foto 5" class="foto"></td>
-                </tr>
+                    <td colspan="6">No hay actividades registradas.</td>
+                </tr> 
+                {% endfor %}
             </tbody>
         </table>
     </div>    
