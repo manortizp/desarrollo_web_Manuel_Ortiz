@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Estadística</title>
+    <style>
+        .galeria {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .galeria img {
+            width: 500px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .volver {
+            text-align: center;
+            margin-top: 40px;
+            font-family: Arial, sans-serif;
+        }
+
+        .volver a {
+            text-decoration: none;
+            color: #007BFF;
+            font-weight: bold;
+        }
+
+        .volver a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Estadísticas</h1>
+
+    <div class="galeria">
+        <img src="{{ url_for('static', filename='images/lineas.png') }}" alt="Graficolineas">
+        <img src="{{ url_for('static', filename='images/piechart.png') }}" alt="Graficotorta">
+        <img src="{{ url_for('static', filename='images/barras.png') }}" alt="GraficoBarras">
+    </div>
+
+    <div class="volver">
+        <p><a href="{{ url_for('index') }}">← Volver al inicio</a></p>
+    </div>
+
+</body>
+</html>

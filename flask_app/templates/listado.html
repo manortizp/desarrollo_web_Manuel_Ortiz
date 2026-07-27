@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Listado de Actividades</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+</head>
+<body>
+  <div>
+    <h1>Listado</h1>
+  </div>
+  <hr />
+
+  <!-- Sección del listado -->
+  <div id="listado">
+    <h2>Últimas 5 actividades</h2>
+    <table id="dispositivos">
+      <thead>
+        <tr>
+          <th>Inicio</th>
+          <th>Término</th>
+          <th>Comuna</th>
+          <th>Sector</th>
+          <th>Tema</th>
+          <th>Nombre Organizador</th>
+          <th>Total fotos</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for a in actividades %}
+          <tr onclick="verDetalles(
+            '{{ a.tema }}', 
+            'Sin estado', 
+            '{{ a.comuna }}', 
+            '{{ a.sector }}', 
+            '{{ a.tema }}', 
+            '{{ a.organizador }}', 
+            '{{ a.fotos | join(",") }}')">
+        <td>{{ a.inicio }}</td>
+        <td>{{ a.termino }}</td>
+        <td>{{ a.comuna }}</td>
+        <td>{{ a.sector }}</td>
+        <td>{{ a.tema }}</td>
+        <td>{{ a.organizador }}</td>
+        <td>{{ a.fotos|length }}</td>
+      </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  
+    <div class="paginacion">
+      {% if pagination.has_prev %}
+        <a href="{{ url_for('listado', page=pagination.prev_num) }}">« Anterior</a>
+      {% endif %}
+
+      Página {{ pagination.page }} de {{ pagination.pages }}
+
+      {% if pagination.has_next %}
+        <a href="{{ url_for('listado', page=pagination.next_num) }}">Siguiente »</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Sección de detalle de la actividad -->
+  <div class="detalle" id="detalle">
+    <h2>Detalles de la Actividad</h2>
+    <p><strong>Tema:</strong> <span id="d-tema"></span></p>
+    <p><strong>Estado:</strong> <span id="d-estado"></span></p>
+    <p><strong>Comuna:</strong> <span id="d-comuna"></span></p>
+    <p><strong>Sector:</strong> <span id="d-sector"></span></p>
+    <p><strong>Organizador:</strong> <span id="d-organizador"></span></p>
+    <p><strong>Total Fotos:</strong> <span id="d-fotos"></span></p>
+
+    <div id="galeria"></div>
+
+    <button onclick="volverListado()">Volver al listado</button>
+    <a href="{{ url_for('index') }}"><button>Volver a la portada</button></a>
+  </div>
+
+  <!-- Modal para imagen ampliada -->
+  <div id="foto-ampliada-container">
+    <div id="foto-ampliada-wrapper">
+      <button id="cerrar-btn" onclick="cerrarFoto()">X</button>
+      <img id="foto-ampliada" src="" alt="foto grande" />
+    </div>
+  </div>
+
+  <script>
+    /**
+     * Muestra el detalle de la actividad.
+     * @param {string} tema - Tema de la actividad.
+     * @param {string} estado - Estado de la actividad.
+     * @param {string} comuna - Comuna.
+     * @param {string} sector - Sector.
+     * @param {string} actividad - Descripción o nombre de la actividad (opcional).
+     * @param {string} organizador - Nombre del organizador.
+     * @param {string} fotosStr - Cadena con rutas de imagen separadas por comas.
+     */
+    function verDetalles(tema, estado, comuna, sector, actividad, organizador, fotosStr) {
+      document.getElementById("listado").style.display = "none";
+      document.getElementById("detalle").style.display = "block";
+
+      document.getElementById("d-tema").textContent = tema;
+      document.getElementById("d-estado").textContent = estado;
+      document.getElementById("d-comuna").textContent = comuna;
+      document.getElementById("d-sector").textContent = sector;
+      document.getElementById("d-organizador").textContent = organizador;
+      
+      // Se determina el número de fotos a partir de la cadena
+      var fotosArray = fotosStr.split(',').map(f => f.trim());
+      document.getElementById("d-fotos").textContent = fotosArray.length;
+      
+      // Generar la galería de imágenes dinámicamente
+      var galeriaDiv = document.getElementById("galeria");
+      galeriaDiv.innerHTML = ""; // Limpia contenido anterior
+      fotosArray.forEach(function(src) {
+        var img = document.createElement("img");
+        img.src = src;
+        img.alt = "Foto de la actividad";
+        img.className = "foto-miniatura";
+        img.onclick = function() {
+          ampliar(src);
+        };
+        galeriaDiv.appendChild(img);
+      });
+    }
+
+    // Vuelve a mostrar el listado y oculta el detalle.
+    function volverListado() {
+      document.getElementById("detalle").style.display = "none";
+      document.getElementById("listado").style.display = "block";
+    }
+
+    // Muestra el modal con la imagen ampliada.
+    function ampliar(src) {
+      document.getElementById("foto-ampliada").src = src;
+      document.getElementById("foto-ampliada-container").style.display = "flex";
+    }
+
+    // Cierra el modal de imagen ampliada.
+    function cerrarFoto() {
+      document.getElementById("foto-ampliada-container").style.display = "none";
+    }
+  </script>
+</body>
+</html>
+
+

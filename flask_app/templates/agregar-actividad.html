@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Agregar Actividad</title>
+    <style>
+        .seccion { margin-bottom: 1.5em; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <h1>Informar actividad</h1>
+    <form id="form-actividad" method="POST" enctype="multipart/form-data" action="{{ url_for('agregar') }}">
+
+        <!-- Información del lugar -->
+        <fieldset class="seccion">
+            <legend>¿Dónde?</legend>
+            <label>Región:
+                <select id="region" name="region_id" required>
+                    <option value="" disabled selected>Seleccionar región</option>
+                    {% for region in regiones %}
+                        <option value="{{ region.id }}">{{ region.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </label><br><br>
+            <label>Comuna:
+                <select id="comuna" name="comuna_id" required>
+                    <option value="" disabled selected>Seleccionar comuna</option>
+                </select>
+            </label><br><br>
+            <label>Sector:
+                <input type="text" id="sector" name="sector" maxlength="100">
+            </label>
+        </fieldset>
+
+        <!-- Datos del organizador -->
+        <fieldset class="seccion">
+            <legend>¿Quién organiza?</legend>
+            <label>Nombre:
+                <input type="text" id="nombre" name="nombre" maxlength="200" required>
+            </label><br><br>
+            <label>Email:
+                <input type="email" id="email" name="email" maxlength="100" required>
+            </label><br><br>
+            <label>Número de celular:
+                <input type="tel" id="telefono" name="celular" pattern="\+\d{3}\.\d{8}" placeholder="+569.12345678">
+            </label><br><br>
+            <label>Contactar por:
+                <select id="contacto-select" name="contacto[]" multiple>
+                    <option value="whatsapp">WhatsApp</option>
+                    <option value="telegram">Telegram</option>
+                    <option value="x">X</option>
+                    <option value="instagram">Instagram</option>
+                    <option value="tiktok">TikTok</option>
+                    <option value="otra">Otra</option>
+                </select>
+            </label><br><br>
+            <div id="contacto-extra" class="hidden">
+                <label>ID o URL:
+                    <input type="text" id="input-contacto" minlength="4" maxlength="50">
+                </label>
+            </div>
+        </fieldset>
+
+        <!-- Información de la actividad -->
+        <fieldset class="seccion">
+            <legend>¿Cuándo y de qué trata?</legend>
+            <label>Inicio:
+                <input type="datetime-local" id="inicio" name="dia_hora_inicio" required>
+            </label><br><br>
+            <label>Término:
+                <input type="datetime-local" id="termino" name="dia_hora_termino">
+            </label><br><br>
+            <label>Descripción:<br>
+                <textarea name="descripcion" cols="50" rows="10"></textarea>
+            </label><br><br>
+            <label>Tema:
+                <select id="tema" name="temas[]" required>
+                    <option value="" disabled selected>Seleccionar tema</option>
+                    <option value="música">Música</option>
+                    <option value="deporte">Deporte</option>
+                    <option value="ciencias">Ciencias</option>
+                    <option value="religión">Religión</option>
+                    <option value="política">Política</option>
+                    <option value="tecnología">Tecnología</option>
+                    <option value="juegos">Juegos</option>
+                    <option value="baile">Baile</option>
+                    <option value="comida">Comida</option>
+                    <option value="otro">Otro</option>
+                </select>
+            </label><br><br>
+            <div id="tema-otro" class="hidden">
+                <label>Descripción del tema:
+                    <input type="text" id="input-tema-otro" name="glosa_otro[]" minlength="3" maxlength="15">
+                </label>
+            </div><br>
+
+            <label for="foto">Foto:</label>
+                <div id="fotos">
+                    <input type="file" id="foto" name="fotos" accept="image/*" required>
+                </div>
+                <button type="button" id="btn-agregar-foto">Agregar otra foto</button>
+        </fieldset>
+
+        <button type="button" id="btn-agregar">Agregar esta actividad</button>
+    </form>
+
+    <div id="confirmacion" class="hidden">
+        <p>¿Está seguro que desea agregar esta actividad?</p>
+        <button id="confirmar">Sí, estoy seguro</button>
+        <button id="cancelar">No, no estoy seguro, quiero volver al formulario</button>
+    </div>
+
+    <div id="mensaje-final" class="hidden">
+        <p>Hemos recibido su información, muchas gracias y suerte en su actividad</p>
+        <a href="{{ url_for('index') }}"><button>Volver a la portada</button></a>
+    </div>
+
+    <script src="{{ url_for('static', filename ='js/formulario.js') }}"></script>
+</body>
+</html>

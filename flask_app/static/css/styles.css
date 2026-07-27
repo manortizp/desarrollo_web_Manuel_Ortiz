@@ -1,0 +1,73 @@
+table {
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+table, th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+}
+
+.foto {
+    max-width: 100px;
+    height: auto;
+}
+
+.detalle {
+    display: none;
+}
+
+/* Miniaturas en la galería */
+.foto-miniatura {
+    width: 320px;
+    height: 240px;
+    cursor: pointer;
+    margin: 10px;
+}
+    
+/* Modal para foto ampliada */
+#foto-ampliada-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+    
+#foto-ampliada-wrapper {
+    position: relative;
+}
+    
+#foto-ampliada {
+    width: 800px;
+    height: 600px;
+    display: block;
+}
+    
+#cerrar-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #fff;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+    
+/* Centrado de contenido */
+#listado, #detalle {
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+}
+    
+button {
+    margin: 10px;
+}
